@@ -1,0 +1,189 @@
+﻿@model Prog6212.ViewModels.ClaimViewModel
+@{
+    ViewData["Title"] = "Claim Details";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-info text-white">
+                    <h4 class="mb-0"><i class="fas fa-file-alt"></i> Claim Details #@Model.Id</h4>
+                </div>
+                <div class="card-body">
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show">
+                            <i class="fas fa-check-circle"></i> @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show">
+                            <i class="fas fa-exclamation-circle"></i> @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+                        </div>
+                    }
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <strong>Lecturer Name:</strong><br />
+                                @Model.LecturerName
+                            </div>
+                            <div class="mb-3">
+                                <strong>Hours Worked:</strong><br />
+                                @Model.HoursWorked hours
+                            </div>
+                            <div class="mb-3">
+                                <strong>Hourly Rate:</strong><br />
+                                R @Model.HourlyRate.ToString("N2")
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <strong>Total Amount:</strong><br />
+                                <span class="h4 text-success">R @Model.TotalAmount.ToString("N2")</span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Status:</strong><br />
+                                <span class="badge @GetStatusBadgeClass(Model.Status) @GetStatusTextClass(Model.Status)">
+                                    <i class="@GetStatusIcon(Model.Status)"></i> @Model.Status
+                                </span>
+                            </div>
+                            <div class="mb-3">
+                                <strong>Submission Date:</strong><br />
+                                @Model.SubmissionDate.ToString("dd/MM/yyyy HH:mm")
+                            </div>
+                        </div>
+                    </div>
+
+                    @if (!string.IsNullOrEmpty(Model.AdditionalNotes))
+                    {
+                        <div class="mb-3">
+                            <strong>Additional Notes:</strong><br />
+                            <div class="card bg-light">
+                                <div class="card-body">
+                                    @Model.AdditionalNotes
+                                </div>
+                            </div>
+                        </div>
+                    }
+
+                    @if (!string.IsNullOrEmpty(Model.SupportingDocumentPath))
+                    {
+                        <div class="mb-3">
+                            <strong>Supporting Document:</strong><br />
+                            <div class="alert alert-success">
+                                <i class="fas fa-file-pdf"></i> Document attached to this claim
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <div class="mb-3">
+                            <strong>Supporting Document:</strong><br />
+                            <div class="alert alert-secondary">
+                                <i class="fas fa-times"></i> No document attached
+                            </div>
+                        </div>
+                    }
+
+                    <!-- ✅ APPROVAL PROCESS INFORMATION -->
+                    <div class="card mt-4">
+                        <div class="card-header bg-light">
+                            <h6 class="mb-0"><i class="fas fa-info-circle"></i> Approval Process</h6>
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-2">
+                                <i class="fas fa-arrow-right text-primary"></i>
+                                <strong>Current Status:</strong> @Model.Status
+                            </p>
+                            @if (Model.Status == "Pending")
+                            {
+                                <p class="mb-2">
+                                    <i class="fas fa-clock text-warning"></i>
+                                    Your claim is awaiting review by a coordinator or manager.
+                                </p>
+                                <p class="mb-0 text-muted">
+                                    You can withdraw this claim if you need to make changes.
+                                </p>
+                            }
+                            else if (Model.Status == "Approved")
+                            {
+                                <p class="mb-2">
+                                    <i class="fas fa-check-circle text-success"></i>
+                                    Your claim has been approved and will be processed for payment.
+                                </p>
+                            }
+                            else if (Model.Status == "Rejected")
+                            {
+                                <p class="mb-2">
+                                    <i class="fas fa-times-circle text-danger"></i>
+                                    Your claim was not approved. Please check the additional notes for details.
+                                </p>
+                            }
+                        </div>
+                    </div>
+
+                    <div class="mt-4">
+                        <a href="@Url.Action("Index", "Claim")" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left"></i> Back to Claims
+                        </a>
+
+                        @if (User.IsInRole("Lecturer") && Model.Status == "Pending")
+                        {
+                            <form asp-action="Withdraw" asp-route-id="@Model.Id" method="post" class="d-inline">
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger"
+                                        onclick="return confirm('Are you sure you want to withdraw this claim? This action cannot be undone.');">
+                                    <i class="fas fa-undo"></i> Withdraw Claim
+                                </button>
+                            </form>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@functions {
+    public string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "bg-warning",
+            "Approved" => "bg-success",
+            "Rejected" => "bg-danger",
+            "Withdrawn" => "bg-secondary",
+            _ => "bg-info"
+        };
+    }
+
+    public string GetStatusTextClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "text-dark",
+            "Approved" => "text-white",
+            "Rejected" => "text-white",
+            "Withdrawn" => "text-white",
+            _ => "text-white"
+        };
+    }
+
+    public string GetStatusIcon(string status)
+    {
+        return status switch
+        {
+            "Pending" => "fas fa-clock",
+            "Approved" => "fas fa-check-circle",
+            "Rejected" => "fas fa-times-circle",
+            "Withdrawn" => "fas fa-undo",
+            _ => "fas fa-info-circle"
+        };
+    }
+}

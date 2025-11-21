@@ -1,0 +1,102 @@
+[
+  {
+    "Id": 1,
+    "UserId": 1,
+    "HoursWorked": 40,
+    "HourlyRate": 250,
+    "TotalAmount": 10000,
+    "AdditionalNotes": "Monthly teaching hours",
+    "SupportingDocument": null,
+    "Status": "Approved",
+    "SubmissionDate": "2025-10-12T13:56:20.5999487+02:00",
+    "ApprovalDate": "2025-10-17T13:56:20.5999904+02:00",
+    "ApprovedBy": 2,
+    "User": {
+      "Id": 1,
+      "Email": "lecturer@iie.ac.za",
+      "Password": "lecturer123",
+      "FullName": "Dr. John Smith",
+      "Role": "Lecturer",
+      "IsActive": true,
+      "CreatedDate": "2025-10-22T13:56:20.5846647+02:00"
+    },
+    "Approver": {
+      "Id": 2,
+      "Email": "coordinator@iie.ac.za",
+      "Password": "coordinator123",
+      "FullName": "Ms. Sarah Wilson",
+      "Role": "Coordinator",
+      "IsActive": true,
+      "CreatedDate": "2025-10-22T13:56:20.5848495+02:00"
+    }
+  },
+  {
+    "Id": 2,
+    "UserId": 1,
+    "HoursWorked": 35,
+    "HourlyRate": 250,
+    "TotalAmount": 8750,
+    "AdditionalNotes": "Student consultations",
+    "SupportingDocument": null,
+    "Status": "Pending",
+    "SubmissionDate": "2025-10-19T13:56:20.6000779+02:00",
+    "ApprovalDate": null,
+    "ApprovedBy": null,
+    "User": {
+      "Id": 1,
+      "Email": "lecturer@iie.ac.za",
+      "Password": "lecturer123",
+      "FullName": "Dr. John Smith",
+      "Role": "Lecturer",
+      "IsActive": true,
+      "CreatedDate": "2025-10-22T13:56:20.5846647+02:00"
+    },
+    "Approver": null
+  },
+  {
+    "Id": 3,
+    "UserId": 4,
+    "HoursWorked": 45,
+    "HourlyRate": 280,
+    "TotalAmount": 12600,
+    "AdditionalNotes": "Research supervision",
+    "SupportingDocument": null,
+    "Status": "Pending",
+    "SubmissionDate": "2025-10-21T13:56:20.6000783+02:00",
+    "ApprovalDate": null,
+    "ApprovedBy": null,
+    "User": {
+      "Id": 4,
+      "Email": "lecturer2@iie.ac.za",
+      "Password": "lecturer123",
+      "FullName": "Prof. Emily Johnson",
+      "Role": "Lecturer",
+      "IsActive": true,
+      "CreatedDate": "2025-10-22T13:56:20.58485+02:00"
+    },
+    "Approver": null
+  },
+  {
+    "Id": 4,
+    "UserId": 1,
+    "HoursWorked": 3,
+    "HourlyRate": 2.00,
+    "TotalAmount": 6.00,
+    "AdditionalNotes": "this is my claim",
+    "SupportingDocument": "9c149c14-8133-449d-be10-48b45678cbc8.jpg",
+    "Status": "Pending",
+    "SubmissionDate": "2025-10-22T14:26:27.7245115+02:00",
+    "ApprovalDate": null,
+    "ApprovedBy": null,
+    "User": {
+      "Id": 1,
+      "Email": "lecturer@iie.ac.za",
+      "Password": "lecturer123",
+      "FullName": "Dr. John Smith",
+      "Role": "Lecturer",
+      "IsActive": true,
+      "CreatedDate": "2025-10-22T13:56:20.5846647+02:00"
+    },
+    "Approver": null
+  }
+]

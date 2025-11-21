@@ -1,0 +1,38 @@
+[
+  {
+    "Id": 1,
+    "Email": "lecturer@iie.ac.za",
+    "Password": "lecturer123",
+    "FullName": "Dr. John Smith",
+    "Role": "Lecturer",
+    "IsActive": true,
+    "CreatedDate": "2025-10-22T13:56:20.5846647+02:00"
+  },
+  {
+    "Id": 2,
+    "Email": "coordinator@iie.ac.za",
+    "Password": "coordinator123",
+    "FullName": "Ms. Sarah Wilson",
+    "Role": "Coordinator",
+    "IsActive": true,
+    "CreatedDate": "2025-10-22T13:56:20.5848495+02:00"
+  },
+  {
+    "Id": 3,
+    "Email": "manager@iie.ac.za",
+    "Password": "manager123",
+    "FullName": "Mr. David Brown",
+    "Role": "Manager",
+    "IsActive": true,
+    "CreatedDate": "2025-10-22T13:56:20.5848499+02:00"
+  },
+  {
+    "Id": 4,
+    "Email": "lecturer2@iie.ac.za",
+    "Password": "lecturer123",
+    "FullName": "Prof. Emily Johnson",
+    "Role": "Lecturer",
+    "IsActive": true,
+    "CreatedDate": "2025-10-22T13:56:20.58485+02:00"
+  }
+]

@@ -1,0 +1,148 @@
+﻿@model Prog6212.ViewModels.CreateClaimViewModel 
+
+@{
+    ViewData["Title"] = "Submit New Claim";
+    var hourlyRate = ViewBag.UserHourlyRate ?? 0;
+    var userName = ViewBag.UserName ?? "User";
+}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-header bg-primary text-white">
+                    <h4 class="mb-0"><i class="fas fa-plus-circle"></i> Submit New Claim - @userName</h4>
+                </div>
+                <div class="card-body">
+                    <!-- Success/Error Messages -->
+                    @if (TempData["SuccessMessage"] != null)
+                    {
+                        <div class="alert alert-success alert-dismissible fade show" role="alert">
+                            @TempData["SuccessMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+                    
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                            @TempData["ErrorMessage"]
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    }
+
+                    <form asp-action="Create" method="post" enctype="multipart/form-data" id="claimForm">
+                        @Html.AntiForgeryToken()
+                        
+                        <!-- Validation Summary -->
+                        <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label asp-for="HoursWorked" class="form-label">Hours Worked *</label>
+                                    <input asp-for="HoursWorked" class="form-control" 
+                                           step="0.1" min="0.1" max="180" required 
+                                           oninput="calculateTotal()" />
+                                    <span asp-validation-for="HoursWorked" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Your Hourly Rate (Set by HR)</label>
+                                    <input type="text" class="form-control" value="R @hourlyRate.ToString("N2")" readonly />
+                                    <small class="form-text text-muted">This rate is set by HR and cannot be changed</small>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="AdditionalNotes" class="form-label">Additional Notes</label>
+                            <textarea asp-for="AdditionalNotes" class="form-control" rows="4"
+                                      placeholder="Enter any additional notes or details about this claim..."></textarea>
+                            <span asp-validation-for="AdditionalNotes" class="text-danger"></span>
+                        </div>
+
+                        <div class="mb-3">
+                            <label asp-for="SupportingDocument" class="form-label">Supporting Document (Optional)</label>
+                            <input asp-for="SupportingDocument" type="file" class="form-control"
+                                   accept=".pdf,.docx,.xlsx,.jpg,.png" />
+                            <div class="form-text">Supported formats: PDF, DOCX, XLSX, JPG, PNG (Max 10MB)</div>
+                        </div>
+
+                        <!-- Auto-calculation Display -->
+                        <div class="mb-3">
+                            <div class="alert alert-info">
+                                <h6 class="alert-heading">Claim Summary</h6>
+                                <hr>
+                                <p class="mb-1"><strong>Hours Worked:</strong> <span id="displayHours">0</span></p>
+                                <p class="mb-1"><strong>Hourly Rate:</strong> R <span id="displayRate">@hourlyRate.ToString("N2")</span></p>
+                                <hr>
+                                <p class="mb-0"><strong>Total Amount:</strong> R <span id="displayTotal">0.00</span></p>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-success btn-lg" id="submitBtn">
+                                <i class="fas fa-paper-plane"></i> Submit Claim
+                            </button>
+                            <a href="@Url.Action("Index", "Dashboard")" class="btn btn-outline-secondary">
+                                <i class="fas fa-arrow-left"></i> Back to Dashboard
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        function calculateTotal() {
+            const hoursInput = document.getElementById('HoursWorked');
+            const displayHours = document.getElementById('displayHours');
+            const displayTotal = document.getElementById('displayTotal');
+            const hourlyRate = @hourlyRate;
+
+            const hours = parseFloat(hoursInput.value) || 0;
+            const total = hours * hourlyRate;
+
+            if (displayHours) displayHours.textContent = hours.toFixed(1);
+            if (displayTotal) displayTotal.textContent = total.toFixed(2);
+
+            //180 hour validation
+            if (hours > 180) {
+                hoursInput.classList.add('is-invalid');
+                if (displayTotal) displayTotal.style.color = 'red';
+            } else {
+                hoursInput.classList.remove('is-invalid');
+                if (displayTotal) displayTotal.style.color = 'inherit';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            calculateTotal();
+            
+            const form = document.getElementById('claimForm');
+            if (form) {
+                form.addEventListener('submit', function(e) {
+                    const hoursInput = document.getElementById('HoursWorked');
+                    const hours = parseFloat(hoursInput.value) || 0;
+                    
+                    if (hours > 180) {
+                        e.preventDefault();
+                        alert('Error: Hours worked cannot exceed 180 hours per month.');
+                        return false;
+                    }
+                    
+                    const submitBtn = document.getElementById('submitBtn');
+                    if (submitBtn) {
+                        submitBtn.disabled = true;
+                        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Submitting...';
+                    }
+                });
+            }
+        });
+    </script>
+}

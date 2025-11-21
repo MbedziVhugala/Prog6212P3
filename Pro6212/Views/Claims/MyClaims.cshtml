@@ -1,0 +1,61 @@
+﻿@model IEnumerable<Prog6212.Models.LecturerClaim>
+
+@{
+    ViewData["Title"] = "My Claims";
+}
+
+<div class="container">
+    <h2>My Claims</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>Claim ID</th>
+                <th>Hours Worked</th>
+                <th>Hourly Rate</th>
+                <th>Total Amount</th>
+                <th>Status</th>
+                <th>Submitted On</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var claim in Model)
+            {
+                <tr>
+                    <td>@claim.Id</td>
+                    <td>@claim.HoursWorked</td>
+                    <td>R @claim.HourlyRate.ToString("N2")</td>
+                    <td>R @((claim.HoursWorked * claim.HourlyRate).ToString("N2"))</td>
+                    <td>
+                        <span class="badge @GetStatusBadgeClass(claim.Status)">
+                            @claim.Status
+                        </span>
+                    </td>
+                    <td>@claim.SubmissionDate.ToString("dd/MM/yyyy")</td>
+                    <td>
+                        <a class="btn btn-sm btn-primary" href="@Url.Action("Details", "Claims", new { id = claim.Id })">View</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+
+@functions {
+    public string GetStatusBadgeClass(string status)
+    {
+        return status switch
+        {
+            "Pending" => "bg-warning",
+            "Approved" => "bg-success",
+            "Rejected" => "bg-danger",
+            _ => "bg-secondary"
+        };
+    }
+}

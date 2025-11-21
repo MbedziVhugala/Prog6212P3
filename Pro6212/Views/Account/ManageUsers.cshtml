@@ -1,0 +1,52 @@
+﻿@model List<Prog6212.Models.User>
+
+@{
+    ViewData["Title"] = "Manage Users";
+}
+
+<div class="container">
+    <h2>Manage Users</h2>
+
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
+    <div class="mb-3">
+        <a href="@Url.Action("CreateUser", "Account")" class="btn btn-primary">Create New User</a>
+    </div>
+
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Full Name</th>
+                <th>Email</th>
+                <th>Role</th>
+                <th>Hourly Rate</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var user in Model)
+            {
+                <tr>
+                    <td>@user.Id</td>
+                    <td>@user.FullName</td>
+                    <td>@user.Email</td>
+                    <td>@user.Role</td>
+                    <td>R @user.HourlyRate.ToString("N2")</td>
+                    <td>
+                        <span class="badge @(user.IsActive ? "bg-success" : "bg-danger")">
+                            @(user.IsActive ? "Active" : "Inactive")
+                        </span>
+                    </td>
+                    <td>
+                        <a href="@Url.Action("EditUser", "Account", new { id = user.Id })" class="btn btn-sm btn-warning">Edit</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
