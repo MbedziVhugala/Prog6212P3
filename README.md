@@ -1,1 +1,2 @@
 # Prog6212P3
+Transitioning to Part 3, the scope expands from an individual's view to an organizational overview, showcasing the administrative backend of the system. Here, users with HR, Manager, or Coordinator roles log in to a fundamentally different dashboard. Instead of a form for creating claims, they are presented with a queue or list of all claims submitted by various lecturers, filterable by status (such as "Pending," "Approved," or "Rejected"). This shift moves the focus from data creation to data oversight and workflow management.
