@@ -4,3 +4,5 @@ As we move into Part 3, the scope shifts from an individual's perspective to an 
 The claim assessment and authorization procedure is the main interactive component of Part 3. The administrator's major role starts at submission, while the lecturer's role ceased there. The demonstration demonstrates how to choose a "Pending" claim, examine the information provided by the lecturer, including the number of hours worked, the computed amount, and any supporting documentation, and then take a decisive action: either approve the claim for payment or reject it with a required explanation for openness and documentation.
 
 In the end, Part 3 emphasizes how the business process cycle that was started in Part 2 has been completed. It demonstrates how the application upholds financial control and organizational policy, guaranteeing that each claim is examined and approved before to finalization. From the first employee submission to the last administrator approval, this dual view completely demonstrates the system's role-based access control and shows a safe and effective end-to-end claim management procedure.
+
+Youtube video link: https://youtu.be/-XuDCRUXGiQ
